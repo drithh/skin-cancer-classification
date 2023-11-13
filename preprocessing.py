@@ -61,17 +61,10 @@ def get_mask_dark_corners(original_image, circularity_threshold=0.5, area_thresh
     if circular_contours:
         # Draw the circular contours on the mask
         cv2.drawContours(mask, circular_contours, -1, 255, thickness=cv2.FILLED)
-        
 
     else:
         # make mask white
         mask[:] = 255
-        
-    # result_image = cv2.bitwise_and(image, image, mask=mask)
-    
-    # result = [original_image, img_contours, mask]
-    # label = ['Original Image', 'Contours', 'Mask']
-    # plot_images(result, label, 3, 1)
 
     return mask
 

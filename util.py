@@ -21,7 +21,7 @@ def plot_images(images, image_names, columns=None, rows=None):
     
     
 def read_images(folder_path):
-    images = []
+    images_with_names = []
     # Check if the folder exists
     if not os.path.exists(folder_path):
         print(f"The folder '{folder_path}' does not exist.")
@@ -38,7 +38,7 @@ def read_images(folder_path):
             if file_name.lower().endswith(('.png', '.jpg', '.jpeg')):
                 # Read the image using OpenCV
                 image = cv2.imread(file_path)
-                images.append(image)
+                images_with_names.append((image, file_name))
             else:
                 print(f"Skipping non-image file: {file_name}")
-    return images
+    return images_with_names

@@ -97,7 +97,8 @@ def calculate_hsv_statistic(image) -> pd.Series:
         'hsv_mean_h': mean_h, 'hsv_mean_s': mean_s, 'hsv_mean_v': mean_v,
         'hsv_var_h': var_h, 'hsv_var_s': var_s, 'hsv_var_v': var_v,
         'hsv_skew_h': skew_h, 'hsv_skew_s': skew_s, 'hsv_skew_v': skew_v,
-        'hsv_kurt_h': kurt_h, 'hsv_kurt_s': kurt_s, 'hsv_kurt_v': kurt_v
+        'hsv_kurt_h': kurt_h, 'hsv_kurt_s': kurt_s, 'hsv_kurt_v': kurt_v,
+        'entropy_h': entropy_h, 'entropy_s': entropy_s, 'entropy_v': entropy_v
     }
     
     return pd.Series(features_dict)

@@ -52,12 +52,22 @@ def calculate_rgb_statistic(image) -> pd.Series:
     g_non_black = g[non_black_indices]
     r_non_black = r[non_black_indices]
 
-    # Calculate mean, variance, skewness, kurtosis, and entropy for each channel
-    mean_b, mean_g, mean_r = np.mean(b_non_black), np.mean(g_non_black), np.mean(r_non_black)
-    var_b, var_g, var_r = np.var(b_non_black), np.var(g_non_black), np.var(r_non_black)
-    skew_b, skew_g, skew_r = skew(b_non_black.flatten()), skew(g_non_black.flatten()), skew(r_non_black.flatten())
-    kurt_b, kurt_g, kurt_r = kurtosis(b_non_black.flatten()), kurtosis(g_non_black.flatten()), kurtosis(r_non_black.flatten())
-    entropy_b, entropy_g, entropy_r = entropy(b_non_black.flatten()), entropy(g_non_black.flatten()), entropy(r_non_black.flatten())
+    # Check if the arrays are not empty before calculating statistics
+    if len(b_non_black) > 0:
+        mean_b, var_b, skew_b, kurt_b, entropy_b = np.nan_to_num(np.mean(b_non_black), nan=0), np.nan_to_num(np.var(b_non_black), nan=0), np.nan_to_num(skew(b_non_black.flatten()), nan=0), np.nan_to_num(kurtosis(b_non_black.flatten()), nan=0), np.nan_to_num(entropy(b_non_black.flatten()), nan=0)
+    else:
+        mean_b, var_b, skew_b, kurt_b, entropy_b = 0, 0, 0, 0, 0
+    
+    # Repeat similar checks for other channels (g and r)
+    if len(g_non_black) > 0:
+        mean_g, var_g, skew_g, kurt_g, entropy_g = np.nan_to_num(np.mean(g_non_black), nan=0), np.nan_to_num(np.var(g_non_black), nan=0), np.nan_to_num(skew(g_non_black.flatten()), nan=0), np.nan_to_num(kurtosis(g_non_black.flatten()), nan=0), np.nan_to_num(entropy(g_non_black.flatten()), nan=0)
+    else:
+        mean_g, var_g, skew_g, kurt_g, entropy_g = 0, 0, 0, 0, 0
+    
+    if len(r_non_black) > 0:
+        mean_r, var_r, skew_r, kurt_r, entropy_r = np.nan_to_num(np.mean(r_non_black), nan=0), np.nan_to_num(np.var(r_non_black), nan=0), np.nan_to_num(skew(r_non_black.flatten()), nan=0), np.nan_to_num(kurtosis(r_non_black.flatten()), nan=0), np.nan_to_num(entropy(r_non_black.flatten()), nan=0)
+    else:
+        mean_r, var_r, skew_r, kurt_r, entropy_r = 0, 0, 0, 0, 0
 
     # Return the calculated values
     features_dict = {
@@ -85,13 +95,23 @@ def calculate_hsv_statistic(image) -> pd.Series:
     s_non_black = s[non_black_indices]
     v_non_black = v[non_black_indices]
 
-    # Calculate mean, variance, skewness, kurtosis, and entropy for each channel
-    mean_h, mean_s, mean_v = np.mean(h_non_black), np.mean(s_non_black), np.mean(v_non_black)
-    var_h, var_s, var_v = np.var(h_non_black), np.var(s_non_black), np.var(v_non_black)
-    skew_h, skew_s, skew_v = skew(h_non_black.flatten()), skew(s_non_black.flatten()), skew(v_non_black.flatten())
-    kurt_h, kurt_s, kurt_v = kurtosis(h_non_black.flatten()), kurtosis(s_non_black.flatten()), kurtosis(v_non_black.flatten())
-    entropy_h, entropy_s, entropy_v = entropy(h_non_black.flatten()), entropy(s_non_black.flatten()), entropy(v_non_black.flatten())
-
+    # Check if the arrays are not empty before calculating statistics
+    if len(h_non_black) > 0:
+        mean_h, var_h, skew_h, kurt_h, entropy_h = np.nan_to_num(np.mean(h_non_black), nan=0), np.nan_to_num(np.var(h_non_black), nan=0), np.nan_to_num(skew(h_non_black.flatten()), nan=0), np.nan_to_num(kurtosis(h_non_black.flatten()), nan=0), np.nan_to_num(entropy(h_non_black.flatten()), nan=0)
+    else:
+        mean_h, var_h, skew_h, kurt_h, entropy_h = 0, 0, 0, 0, 0
+    
+    # Repeat similar checks for other channels (s and v)
+    if len(s_non_black) > 0:
+        mean_s, var_s, skew_s, kurt_s, entropy_s = np.nan_to_num(np.mean(s_non_black), nan=0), np.nan_to_num(np.var(s_non_black), nan=0), np.nan_to_num(skew(s_non_black.flatten()), nan=0), np.nan_to_num(kurtosis(s_non_black.flatten()), nan=0), np.nan_to_num(entropy(s_non_black.flatten()), nan=0)
+    else:
+        mean_s, var_s, skew_s, kurt_s, entropy_s = 0, 0, 0, 0, 0
+        
+    if len(v_non_black) > 0:
+        mean_v, var_v, skew_v, kurt_v, entropy_v = np.nan_to_num(np.mean(v_non_black), nan=0), np.nan_to_num(np.var(v_non_black), nan=0), np.nan_to_num(skew(v_non_black.flatten()), nan=0), np.nan_to_num(kurtosis(v_non_black.flatten()), nan=0), np.nan_to_num(entropy(v_non_black.flatten()), nan=0)
+    else:
+        mean_v, var_v, skew_v, kurt_v, entropy_v = 0, 0, 0, 0, 0
+    
     # Return the calculated values
     features_dict = {
         'hsv_mean_h': mean_h, 'hsv_mean_s': mean_s, 'hsv_mean_v': mean_v,
@@ -118,18 +138,23 @@ def calculate_lab_statistic(image) -> pd.Series:
     a_non_black = a[non_black_indices]
     b_non_black = b[non_black_indices]
 
-    # Calculate mean, variance, skewness, kurtosis, and entropy for each channel
-    mean_l, mean_a, mean_b = np.mean(l_non_black), np.mean(a_non_black), np.mean(b_non_black)
-    var_l, var_a, var_b = np.var(l_non_black), np.var(a_non_black), np.var(b_non_black)
-    skew_l, skew_a, skew_b = skew(l_non_black.flatten()), skew(a_non_black.flatten()), skew(b_non_black.flatten())
-    kurt_l, kurt_a, kurt_b = kurtosis(l_non_black.flatten()), kurtosis(a_non_black.flatten()), kurtosis(b_non_black.flatten())
-    entropy_l, entropy_a, entropy_b = entropy(l_non_black.flatten()), entropy(a_non_black.flatten()), entropy(b_non_black.flatten())
+    # Check if the arrays are not empty before calculating statistics
+    if len(l_non_black) > 0:
+        mean_l, var_l, skew_l, kurt_l, entropy_l = np.nan_to_num(np.mean(l_non_black), nan=0), np.nan_to_num(np.var(l_non_black), nan=0), np.nan_to_num(skew(l_non_black.flatten()), nan=0), np.nan_to_num(kurtosis(l_non_black.flatten()), nan=0), np.nan_to_num(entropy(l_non_black.flatten()), nan=0)
+    else:
+        mean_l, var_l, skew_l, kurt_l, entropy_l = 0, 0, 0, 0, 0
 
-    mean_l, mean_a, mean_b = np.nan_to_num(mean_l, nan=0), np.nan_to_num(mean_a, nan=0), np.nan_to_num(mean_b, nan=0)
-    var_l, var_a, var_b = np.nan_to_num(var_l, nan=0), np.nan_to_num(var_a, nan=0), np.nan_to_num(var_b, nan=0)
-    skew_l, skew_a, skew_b = np.nan_to_num(skew_l, nan=0), np.nan_to_num(skew_a, nan=0), np.nan_to_num(skew_b, nan=0)
-    kurt_l, kurt_a, kurt_b = np.nan_to_num(kurt_l, nan=0), np.nan_to_num(kurt_a, nan=0), np.nan_to_num(kurt_b, nan=0)
-    entropy_l, entropy_a, entropy_b = np.nan_to_num(entropy_l, nan=0), np.nan_to_num(entropy_a, nan=0), np.nan_to_num(entropy_b, nan=0)
+    # Repeat similar checks for other channels (a and b)
+    if len(a_non_black) > 0:
+        mean_a, var_a, skew_a, kurt_a, entropy_a = np.nan_to_num(np.mean(a_non_black), nan=0), np.nan_to_num(np.var(a_non_black), nan=0), np.nan_to_num(skew(a_non_black.flatten()), nan=0), np.nan_to_num(kurtosis(a_non_black.flatten()), nan=0), np.nan_to_num(entropy(a_non_black.flatten()), nan=0)
+    else:
+        mean_a, var_a, skew_a, kurt_a, entropy_a = 0, 0, 0, 0, 0
+
+    if len(b_non_black) > 0:
+        mean_b, var_b, skew_b, kurt_b, entropy_b = np.nan_to_num(np.mean(b_non_black), nan=0), np.nan_to_num(np.var(b_non_black), nan=0), np.nan_to_num(skew(b_non_black.flatten()), nan=0), np.nan_to_num(kurtosis(b_non_black.flatten()), nan=0), np.nan_to_num(entropy(b_non_black.flatten()), nan=0)
+    else:
+        mean_b, var_b, skew_b, kurt_b, entropy_b = 0, 0, 0, 0, 0
+
     
     # Return the calculated values
     features_dict = {

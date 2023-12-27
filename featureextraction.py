@@ -98,7 +98,7 @@ def calculate_hsv_statistic(image) -> pd.Series:
         'hsv_var_h': var_h, 'hsv_var_s': var_s, 'hsv_var_v': var_v,
         'hsv_skew_h': skew_h, 'hsv_skew_s': skew_s, 'hsv_skew_v': skew_v,
         'hsv_kurt_h': kurt_h, 'hsv_kurt_s': kurt_s, 'hsv_kurt_v': kurt_v,
-        'entropy_h': entropy_h, 'entropy_s': entropy_s, 'entropy_v': entropy_v
+        'hsv_entropy_h': entropy_h, 'hsv_entropy_s': entropy_s, 'hsv_entropy_v': entropy_v
     }
     
     return pd.Series(features_dict)
@@ -125,6 +125,12 @@ def calculate_lab_statistic(image) -> pd.Series:
     kurt_l, kurt_a, kurt_b = kurtosis(l_non_black.flatten()), kurtosis(a_non_black.flatten()), kurtosis(b_non_black.flatten())
     entropy_l, entropy_a, entropy_b = entropy(l_non_black.flatten()), entropy(a_non_black.flatten()), entropy(b_non_black.flatten())
 
+    mean_l, mean_a, mean_b = np.nan_to_num(mean_l, nan=0), np.nan_to_num(mean_a, nan=0), np.nan_to_num(mean_b, nan=0)
+    var_l, var_a, var_b = np.nan_to_num(var_l, nan=0), np.nan_to_num(var_a, nan=0), np.nan_to_num(var_b, nan=0)
+    skew_l, skew_a, skew_b = np.nan_to_num(skew_l, nan=0), np.nan_to_num(skew_a, nan=0), np.nan_to_num(skew_b, nan=0)
+    kurt_l, kurt_a, kurt_b = np.nan_to_num(kurt_l, nan=0), np.nan_to_num(kurt_a, nan=0), np.nan_to_num(kurt_b, nan=0)
+    entropy_l, entropy_a, entropy_b = np.nan_to_num(entropy_l, nan=0), np.nan_to_num(entropy_a, nan=0), np.nan_to_num(entropy_b, nan=0)
+    
     # Return the calculated values
     features_dict = {
         'lab_mean_l': mean_l, 'lab_mean_a': mean_a, 'lab_mean_b': mean_b,

@@ -1,6 +1,6 @@
-# If you want to run this project, you need to get the dataset first from [here](https://www.kaggle.com/datasets/fanconic/skin-cancer-malignant-vs-benign)
+# The dataset is from [here](https://www.kaggle.com/datasets/fanconic/skin-cancer-malignant-vs-benign)
 
-put the dataset in the data folder, so the folder structure will be like this
+if this repo doesnt contain dataset u need to download it and put the dataset in the data folder, so the folder structure will be like this
 
 ```
 ├───data
